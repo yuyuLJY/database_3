@@ -1,0 +1,20 @@
+from pyspark.ml.linalg import Vectors
+from pyspark.ml.regression import LinearRegression
+lines = sc.textFile("winequality-red.csv")
+splitLines = lines.map(lambda l: l.split(";"))
+wineDataRDD = splitLines.map(lambda p: (float(p[11]), Vectors.dense([float(p[0]), float(p[1]), float(p[2]), float(p[3]), float(p[4]), float(p[5]), float(p[6]), float(p[7]), float(p[8]), float(p[9]), float(p[10])])))
+trainingDF=spark.createDataFrame(wineDataRDD,['label', 'features'])
+trainingDF.show()
+
+import pyspark.sql.types as typ
+labels = [
+('INFANT_ALIVE_AT_REPORT', typ.IntegerType()),('BIRTH_PLACE', typ.StringType()),
+('MOTHER_AGE_YEARS', typ.IntegerType()),('FATHER_COMBINED_AGE', typ.IntegerType()),
+('CIG_BEFORE', typ.IntegerType()),('CIG_1_TRI', typ.IntegerType()),
+('CIG_2_TRI', typ.IntegerType()),('CIG_3_TRI', typ.IntegerType()),
+('MOTHER_HEIGHT_IN', typ.IntegerType()),('MOTHER_PRE_WEIGHT', typ.IntegerType()),
+('MOTHER_DELIVERY_WEIGHT', typ.IntegerType()),('MOTHER_WEIGHT_GAIN', typ.IntegerType()),('DIABETES_PRE', typ.IntegerType()),
+('DIABETES_GEST', typ.IntegerType()),('HYP_TENS_PRE', typ.IntegerType()),
+('HYP_TENS_GEST', typ.IntegerType()),('PREV_BIRTH_PRETERM', typ.IntegerType())
+]
+
